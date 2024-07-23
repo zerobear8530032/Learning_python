@@ -80,6 +80,14 @@ def getQuestion():
     print(f" 1) {options[question][0]}\n 2) {options[question][1]}\n 3) {options[question][2]}\n 4) {options[question][3]}")
     return question
 
+def getsameQuestion(lookupvalue):
+    """this is a function which will give return a random question form the dataset """       
+    
+    print(f"Question {len(usedquestion)} : {questions[lookupvalue]}")
+    print("Options :")
+    print(f" 1) {options[lookupvalue][0]}\n 2) {options[lookupvalue][1]}\n 3) {options[lookupvalue][2]}\n 4) {options[lookupvalue][3]}")
+    return lookupvalue
+
 def checkanswer(useranswer,lookupvalue):
     try:
         useranswer=int(useranswer)
@@ -98,9 +106,12 @@ playing =True
 player_reward =0;
 current_reward =1000;
 count=0;
+lookupvalue=0
+skip=False
 while(playing or count==len(questions)):
-    lookupvalue =getQuestion()
-    count=count+1
+    if not skip:
+        lookupvalue =getQuestion()
+        count=count+1
     print("CHOOSE ONE OF THE OPTIONS :")
     userinput=input("enter (1,2,3,4)  to choose the option")
     if(checkanswer(userinput,lookupvalue)==True):
@@ -109,6 +120,7 @@ while(playing or count==len(questions)):
         print(f"Your Reward :{player_reward} ")
         current_reward=current_reward*2
         print(f"Next Question worth {current_reward}")
+        skip=False
     elif(checkanswer(userinput,lookupvalue)==False):
         print("Wrong Answer !!")
         print("Sorry but you Lost !!")
@@ -119,6 +131,10 @@ while(playing or count==len(questions)):
             print(f"You got : {player_reward} as a Prize")
             print("Thanks for Playing ")
         playing=False    
+        skip=False
+    elif(checkanswer(userinput,lookupvalue)==None):
+            getsameQuestion(lookupvalue)
+            skip=True
 
 
 
